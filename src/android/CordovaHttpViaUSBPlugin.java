@@ -53,14 +53,16 @@ public class CordovaHttpViaUSBPlugin extends CordovaPlugin {
         public void run() {
             ServerSocket serverSocket = null;
             try {
+                this.args.put(this.action);
+                byte[] bytes = this.args.toString().getBytes();
+
                 serverSocket = new ServerSocket(59900);
                 serverSocket.setSoTimeout(3000);
                 Socket socket = serverSocket.accept();
-                this.args.put(this.action);
 
                 OutputStream outputStream = socket.getOutputStream();
 
-                outputStream.write(this.args.toString().getBytes());
+                outputStream.write(bytes);
                 outputStream.flush();
 
                 BufferedReader streamReader =
